@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import { AccountInterface } from '../../../interfaces/user.interface';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { UserState } from '../../../state';
@@ -7,51 +7,70 @@ import ModalRegister from '../../modalRegister';
 import { WeatherBox } from './style';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import axios from 'axios';
 
 export default function Weather() {
   const [modalFlag, setModalFlag] = useState(false);
   const intl = new Intl.NumberFormat('ko', { style: 'currency', currency: 'KRW' });
   const [accountData, setAccountData] = useState();
+  const [selectValue, setSelectValue] = useState({ select: 'seoul' });
+  const [weatherData, setWeatherData] = useState(null);
+
   const onClickOpenModal = () => {
     setModalFlag(true);
   };
+
   const onClickCloseModal = () => {
-    setAccountData(null);
     setModalFlag(false);
   };
 
-  useEffect(() => {
-    var xhr = new XMLHttpRequest();
-    var url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst'; /*URL*/
-    var queryParams =
-      '?' + encodeURIComponent('serviceKey') + '=' + process.env.NEXT_PUBLIC_APIKEY; /*Service Key*/
-    queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1'); /**/
-    queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('1000'); /**/
-    queryParams += '&' + encodeURIComponent('dataType') + '=' + encodeURIComponent('JSON'); /**/
-    queryParams +=
-      '&' + encodeURIComponent('base_date') + '=' + encodeURIComponent('20221208'); /**/
-    queryParams += '&' + encodeURIComponent('base_time') + '=' + encodeURIComponent('0600'); /**/
-    queryParams += '&' + encodeURIComponent('nx') + '=' + encodeURIComponent('55'); /**/
-    queryParams += '&' + encodeURIComponent('ny') + '=' + encodeURIComponent('127'); /**/
-    xhr.open('GET', url + queryParams);
-    xhr.onreadystatechange = function () {
-      if (this.readyState == 4) {
-        alert(
-          'Status: ' +
-            this.status +
-            'nHeaders: ' +
-            JSON.stringify(this.getAllResponseHeaders()) +
-            'nBody: ' +
-            this.responseText
-        );
-      }
-    };
+  const handleSelectValue = (e: ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
 
-    xhr.send('');
-  }, []);
+    setSelectValue({
+      ...selectValue,
+      [name]: value,
+    });
+  };
+
+  const getWeatherInfo = (cityName: string) => {
+    axios
+      .get(
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.NEXT_PUBLIC_APIKEY}`
+      )
+      .then((response) => {
+        console.log(response.data);
+        setWeatherData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (selectValue.select) {
+      getWeatherInfo(selectValue.select);
+    }
+  }, [selectValue]);
 
   return (
     <WeatherBox>
+      <select name="select" id="selectBox" onChange={handleSelectValue}>
+        <option value="seoul">seoul</option>
+        <option value="london">london</option>
+      </select>
+      {weatherData &&
+        weatherData?.weather.map((item: any, idx: number) => {
+          return (
+            <div key={idx}>
+              <dl>
+                <dt>{item.description}</dt>
+                <dd>{item.icon}</dd>
+                <dd>{item.main}</dd>
+              </dl>
+            </div>
+          );
+        })}
       <button onClick={onClickOpenModal}>모달오픈</button>
       {modalFlag && <ModalRegister onClose={onClickCloseModal} accountData={accountData} />}
     </WeatherBox>
