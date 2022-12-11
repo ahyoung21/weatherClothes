@@ -1,4 +1,4 @@
-import Weather from '../components/weather/list/index';
+import Weather from '../components/weather/select/index';
 
 const Index = () => {
   return (
