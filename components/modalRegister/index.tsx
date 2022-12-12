@@ -80,6 +80,8 @@ const ModalRegister = (props: ModalProps) => {
     }
   };
 
+  const onSubmit = () => {};
+
   useEffect(() => {
     if (inputValue.date && inputValue.price && inputValue.select && inputValue.name) {
       setStatus(true);

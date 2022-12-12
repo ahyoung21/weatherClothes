@@ -71,8 +71,8 @@ export default function Weather() {
             </div>
           );
         })}
-      <button onClick={onClickOpenModal}>모달오픈</button>
-      {modalFlag && <ModalRegister onClose={onClickCloseModal} accountData={accountData} />}
+      {/* <button onClick={onClickOpenModal}>모달오픈</button>
+      {modalFlag && <ModalRegister onClose={onClickCloseModal} accountData={accountData} />} */}
     </WeatherBox>
   );
 }
