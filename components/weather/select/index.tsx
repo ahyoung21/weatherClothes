@@ -1,4 +1,8 @@
 import React, { useState, ChangeEvent, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import { getUserState, setEmail, setName } from '../../../store/modules/userSlice';
+import { getCounterState, plusCounter, minusCounter } from '../../../store/modules/counterSlice';
 import { AccountInterface } from '../../../interfaces/user.interface';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { UserState } from '../../../state';
@@ -10,11 +14,23 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import axios from 'axios';
 
 export default function Weather() {
+  const dispatch = useDispatch();
+  const { name, email } = useSelector(getUserState);
+  const { value } = useSelector(getCounterState);
+
   const [modalFlag, setModalFlag] = useState(false);
   const intl = new Intl.NumberFormat('ko', { style: 'currency', currency: 'KRW' });
   const [accountData, setAccountData] = useState();
   const [selectValue, setSelectValue] = useState({ select: 'seoul' });
   const [weatherData, setWeatherData] = useState(null);
+  const onDispatch = () => {
+    dispatch(setName('ahyoung'));
+    dispatch(setEmail('ahyoung.db@gmail.com'));
+  };
+
+  const onDispatch2 = () => {
+    dispatch(plusCounter(1));
+  };
 
   const onClickOpenModal = () => {
     setModalFlag(true);
@@ -54,25 +70,47 @@ export default function Weather() {
   }, [selectValue]);
 
   return (
-    <WeatherBox>
-      <select name="select" id="selectBox" onChange={handleSelectValue}>
-        <option value="seoul">seoul</option>
-        <option value="london">london</option>
-      </select>
-      {weatherData &&
-        weatherData?.weather.map((item: any, idx: number) => {
-          return (
-            <div key={idx}>
-              <dl>
-                <dt>{item.description}</dt>
-                <dd>{item.icon}</dd>
-                <dd>{item.main}</dd>
-              </dl>
-            </div>
-          );
-        })}
-      {/* <button onClick={onClickOpenModal}>모달오픈</button>
+    <>
+      <WeatherBox>
+        <select name="select" id="selectBox" onChange={handleSelectValue}>
+          <option value="seoul">seoul</option>
+          <option value="london">london</option>
+        </select>
+        {weatherData &&
+          weatherData?.weather.map((item: any, idx: number) => {
+            return (
+              <div key={idx}>
+                <dl>
+                  <dt>{item.description}</dt>
+                  <dd>{item.icon}</dd>
+                  <dd>{item.main}</dd>
+                </dl>
+              </div>
+            );
+          })}
+        <button type="button" onClick={onDispatch2}>
+          plus button
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(minusCounter(1));
+          }}
+        >
+          minus button
+        </button>
+        count: {value}
+        <br />
+        <br />
+        <button type="button" onClick={onDispatch}>
+          이름, 이메일 버튼
+        </button>
+        <br />
+        name:{name}
+        email:{email}
+        {/* <button onClick={onClickOpenModal}>모달오픈</button>
       {modalFlag && <ModalRegister onClose={onClickCloseModal} accountData={accountData} />} */}
-    </WeatherBox>
+      </WeatherBox>
+    </>
   );
 }

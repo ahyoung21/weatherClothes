@@ -1,5 +1,8 @@
 import type { AppProps } from 'next/app';
-import { RecoilRoot, atom, selector, useRecoilState, useRecoilValue } from 'recoil';
+
+import { Provider } from 'react-redux';
+import { store } from '../store/store';
+
 import Head from 'next/head';
 
 import Header from '../components/common/header';
@@ -10,9 +13,9 @@ import { ThemeProvider } from 'styled-components';
 import { GlobalStyle } from '../styles/global-style';
 import { theme } from '../styles/theme';
 
-export default function App({ Component, pageProps }: AppProps) {
+function App({ Component, pageProps }: AppProps) {
   return (
-    <RecoilRoot>
+    <Provider store={store}>
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta property="og:title" content="Weather forecast" />
@@ -29,6 +32,8 @@ export default function App({ Component, pageProps }: AppProps) {
         </main>
         <Footer />
       </ThemeProvider>
-    </RecoilRoot>
+    </Provider>
   );
 }
+
+export default App;
