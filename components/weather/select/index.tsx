@@ -7,6 +7,7 @@ import { AccountInterface } from '../../../interfaces/user.interface';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { UserState } from '../../../state';
 import ModalRegister from '../../modalRegister';
+import Loading from '../../loading';
 
 import { WeatherBox } from './style';
 import Skeleton from 'react-loading-skeleton';
@@ -17,6 +18,8 @@ export default function Weather() {
   const dispatch = useDispatch();
   const { name, email } = useSelector(getUserState);
   const { value } = useSelector(getCounterState);
+
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const [modalFlag, setModalFlag] = useState(false);
   const intl = new Intl.NumberFormat('ko', { style: 'currency', currency: 'KRW' });
@@ -67,50 +70,58 @@ export default function Weather() {
     if (selectValue.select) {
       getWeatherInfo(selectValue.select);
     }
+
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
   }, [selectValue]);
 
   return (
     <>
-      <WeatherBox>
-        <select name="select" id="selectBox" onChange={handleSelectValue}>
-          <option value="seoul">seoul</option>
-          <option value="london">london</option>
-        </select>
-        {weatherData &&
-          weatherData?.weather.map((item: any, idx: number) => {
-            return (
-              <div key={idx}>
-                <dl>
-                  <dt>{item.description}</dt>
-                  <dd>{item.icon}</dd>
-                  <dd>{item.main}</dd>
-                </dl>
-              </div>
-            );
-          })}
-        <button type="button" onClick={onDispatch2}>
-          plus button
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            dispatch(minusCounter(1));
-          }}
-        >
-          minus button
-        </button>
-        count: {value}
-        <br />
-        <br />
-        <button type="button" onClick={onDispatch}>
-          이름, 이메일 버튼
-        </button>
-        <br />
-        name:{name}
-        email:{email}
-        {/* <button onClick={onClickOpenModal}>모달오픈</button>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <WeatherBox>
+          <select name="select" id="selectBox" onChange={handleSelectValue}>
+            <option value="seoul">seoul</option>
+            <option value="london">london</option>
+          </select>
+          {weatherData &&
+            weatherData?.weather.map((item: any, idx: number) => {
+              return (
+                <div key={idx}>
+                  <dl>
+                    <dt>{item.description}</dt>
+                    <dd>{item.icon}</dd>
+                    <dd>{item.main}</dd>
+                  </dl>
+                </div>
+              );
+            })}
+          <button type="button" onClick={onDispatch2}>
+            plus button
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              dispatch(minusCounter(1));
+            }}
+          >
+            minus button
+          </button>
+          count: {value}
+          <br />
+          <br />
+          <button type="button" onClick={onDispatch}>
+            이름, 이메일 버튼
+          </button>
+          <br />
+          name:{name}
+          email:{email}
+          {/* <button onClick={onClickOpenModal}>모달오픈</button>
       {modalFlag && <ModalRegister onClose={onClickCloseModal} accountData={accountData} />} */}
-      </WeatherBox>
+        </WeatherBox>
+      )}
     </>
   );
 }

@@ -10,7 +10,7 @@ export default function Header() {
             pathname: '/',
           }}
         >
-          <strong>Weather forecast</strong>
+          <strong>🌥️ Weather forecast</strong>
         </Link>
       </h1>
     </HeaderBox>

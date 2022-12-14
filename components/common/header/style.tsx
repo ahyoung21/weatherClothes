@@ -15,6 +15,17 @@ export const HeaderBox = styled.header`
   background-color: #fff;
   box-sizing: border-box;
 
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1.3rem;
+    background: linear-gradient(#fff, 80%, #efefef);
+  }
+
   a {
     padding: 1rem 0;
     font-weight: 400;
