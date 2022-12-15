@@ -20,18 +20,19 @@ export const LoadingBox = styled.div`
       position: relative;
       width: 5rem;
       height: 5rem;
-      padding: 1.2rem;
       color: #1a1a1a;
       background-color: #fae100;
-      box-sizing: border-box;
       border-radius: 50%;
 
       svg {
         position: absolute;
-        top: 1.3rem;
-        left: 1.3rem;
-        right: 1.3rem;
-        bottom: 1.3rem;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 2.4rem;
+        height: 2.4rem;
+        margin: auto;
         opacity: 0;
       }
     }
