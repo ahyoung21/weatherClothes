@@ -55,7 +55,7 @@ export default function Weather() {
   const getWeatherInfo = (cityName: string) => {
     axios
       .get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${process.env.NEXT_PUBLIC_APIKEY}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=kr&appid=${process.env.NEXT_PUBLIC_APIKEY}&units=metric`
       )
       .then((response) => {
         console.log(response.data);
@@ -84,20 +84,32 @@ export default function Weather() {
         <WeatherBox>
           <select name="select" id="selectBox" onChange={handleSelectValue}>
             <option value="seoul">seoul</option>
-            <option value="london">london</option>
+            <option value="Incheon">Incheon</option>
+            <option value="Jeonju">Jeonju</option>
+            <option value="busan">busan</option>
+            <option value="Daegu">Daegu</option>
+            <option value="Jeju">Jeju</option>
           </select>
           {weatherData &&
             weatherData?.weather.map((item: any, idx: number) => {
               return (
                 <div key={idx}>
                   <dl>
-                    <dt>{item.description}</dt>
-                    <dd>{item.icon}</dd>
-                    <dd>{item.main}</dd>
+                    <dt>날씨 설명 : {item.description}</dt>
+                    <dd>아이콘 : {item.main}</dd>
                   </dl>
                 </div>
               );
             })}
+          {weatherData && (
+            <div>
+              <dl>
+                <dt>현재 기온 : {weatherData.main.temp}</dt>
+                <dd>최저 기온 : {weatherData.main.temp_min}</dd>
+                <dd>최고 기온 : {weatherData.main.temp_max}</dd>
+              </dl>
+            </div>
+          )}
           <button type="button" onClick={onDispatch2}>
             plus button
           </button>
