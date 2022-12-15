@@ -2,7 +2,12 @@ import React, { useState, ChangeEvent, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getUserState, setEmail, setName } from '../../../store/modules/userSlice';
-import { getCounterState, plusCounter, minusCounter } from '../../../store/modules/counterSlice';
+import {
+  getCounterState,
+  plusCounter,
+  minusCounter,
+  asyncWeatherFetch,
+} from '../../../store/modules/counterSlice';
 import { AccountInterface } from '../../../interfaces/user.interface';
 import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
 import { UserState } from '../../../state';
@@ -17,7 +22,7 @@ import axios from 'axios';
 export default function Weather() {
   const dispatch = useDispatch();
   const { name, email } = useSelector(getUserState);
-  const { value } = useSelector(getCounterState);
+  const { value, status, data } = useSelector(getCounterState);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -58,7 +63,6 @@ export default function Weather() {
         `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=kr&appid=${process.env.NEXT_PUBLIC_APIKEY}&units=metric`
       )
       .then((response) => {
-        console.log(response.data);
         setWeatherData(response.data);
       })
       .catch((error) => {
@@ -68,7 +72,8 @@ export default function Weather() {
 
   useEffect(() => {
     if (selectValue.select) {
-      getWeatherInfo(selectValue.select);
+      // getWeatherInfo(selectValue.select);
+      dispatch(asyncWeatherFetch(selectValue.select));
     }
 
     setTimeout(() => {
@@ -78,10 +83,11 @@ export default function Weather() {
 
   return (
     <>
-      {isLoading ? (
+      {status === 'Loading' ? (
         <Loading />
       ) : (
         <WeatherBox>
+          <br />
           <select name="select" id="selectBox" onChange={handleSelectValue}>
             <option value="seoul">seoul</option>
             <option value="Incheon">Incheon</option>
@@ -90,8 +96,8 @@ export default function Weather() {
             <option value="Daegu">Daegu</option>
             <option value="Jeju">Jeju</option>
           </select>
-          {weatherData &&
-            weatherData?.weather.map((item: any, idx: number) => {
+          {data &&
+            data?.weather.map((item: any, idx: number) => {
               return (
                 <div key={idx}>
                   <dl>
@@ -101,35 +107,15 @@ export default function Weather() {
                 </div>
               );
             })}
-          {weatherData && (
+          {data && (
             <div>
               <dl>
-                <dt>현재 기온 : {weatherData.main.temp}</dt>
-                <dd>최저 기온 : {weatherData.main.temp_min}</dd>
-                <dd>최고 기온 : {weatherData.main.temp_max}</dd>
+                <dt>현재 기온 : {data.main.temp}</dt>
+                <dd>최저 기온 : {data.main.temp_min}</dd>
+                <dd>최고 기온 : {data.main.temp_max}</dd>
               </dl>
             </div>
           )}
-          <button type="button" onClick={onDispatch2}>
-            plus button
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              dispatch(minusCounter(1));
-            }}
-          >
-            minus button
-          </button>
-          count: {value}
-          <br />
-          <br />
-          <button type="button" onClick={onDispatch}>
-            이름, 이메일 버튼
-          </button>
-          <br />
-          name:{name}
-          email:{email}
           {/* <button onClick={onClickOpenModal}>모달오픈</button>
       {modalFlag && <ModalRegister onClose={onClickCloseModal} accountData={accountData} />} */}
         </WeatherBox>
