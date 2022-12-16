@@ -3,7 +3,7 @@
 
 import { createSlice, PayloadAction, Draft, createAsyncThunk } from '@reduxjs/toolkit';
 
-// initalState 타입 정의
+// initialState 타입 정의
 export interface CounterState {
   value: number;
   status: string;
@@ -17,10 +17,10 @@ export interface CounterState {
   };
 }
 
-// initalState 생성
+// initialState 생성
 const initialState: CounterState = {
   value: 0,
-  status: 'Loading',
+  status: '',
   data: {
     weather: [],
     main: {

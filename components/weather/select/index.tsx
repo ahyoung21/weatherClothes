@@ -1,4 +1,5 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
+import React, { useState, ChangeEvent, useEffect, ReactNode, MouseEvent } from 'react';
+import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { getUserState, setEmail, setName } from '../../../store/modules/userSlice';
@@ -8,78 +9,30 @@ import {
   minusCounter,
   asyncWeatherFetch,
 } from '../../../store/modules/counterSlice';
-import { AccountInterface } from '../../../interfaces/user.interface';
-import { useRecoilValue, useRecoilValueLoadable } from 'recoil';
-import { UserState } from '../../../state';
-import ModalRegister from '../../modalRegister';
 import Loading from '../../loading';
 
 import { WeatherBox } from './style';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
 import axios from 'axios';
 
+type MyComponentProps = {
+  children: ReactNode;
+};
+
+const MyComponent = ({ children }: MyComponentProps) => {
+  return <>{children}</>;
+};
+
 export default function Weather() {
+  const cityNameData = ['seoul', 'Incheon', 'Jeonju', 'busan', 'Daegu', 'Jeju'];
   const dispatch = useDispatch();
-  const { name, email } = useSelector(getUserState);
   const { value, status, data } = useSelector(getCounterState);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const [modalFlag, setModalFlag] = useState(false);
   const intl = new Intl.NumberFormat('ko', { style: 'currency', currency: 'KRW' });
-  const [accountData, setAccountData] = useState();
-  const [selectValue, setSelectValue] = useState({ select: 'seoul' });
-  const [weatherData, setWeatherData] = useState(null);
-  const onDispatch = () => {
-    dispatch(setName('ahyoung'));
-    dispatch(setEmail('ahyoung.db@gmail.com'));
+
+  const onClickCity = (e: MouseEvent<HTMLButtonElement>, city: string) => {
+    Router.push(`/${city}`);
+    dispatch(asyncWeatherFetch(city));
   };
-
-  const onDispatch2 = () => {
-    dispatch(plusCounter(1));
-  };
-
-  const onClickOpenModal = () => {
-    setModalFlag(true);
-  };
-
-  const onClickCloseModal = () => {
-    setModalFlag(false);
-  };
-
-  const handleSelectValue = (e: ChangeEvent<HTMLSelectElement>) => {
-    const { name, value } = e.target;
-
-    setSelectValue({
-      ...selectValue,
-      [name]: value,
-    });
-  };
-
-  const getWeatherInfo = (cityName: string) => {
-    axios
-      .get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&lang=kr&appid=${process.env.NEXT_PUBLIC_APIKEY}&units=metric`
-      )
-      .then((response) => {
-        setWeatherData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
-  useEffect(() => {
-    if (selectValue.select) {
-      // getWeatherInfo(selectValue.select);
-      dispatch(asyncWeatherFetch(selectValue.select));
-    }
-
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, [selectValue]);
 
   return (
     <>
@@ -87,15 +40,18 @@ export default function Weather() {
         <Loading />
       ) : (
         <WeatherBox>
-          <br />
-          <select name="select" id="selectBox" onChange={handleSelectValue}>
-            <option value="seoul">seoul</option>
-            <option value="Incheon">Incheon</option>
-            <option value="Jeonju">Jeonju</option>
-            <option value="busan">busan</option>
-            <option value="Daegu">Daegu</option>
-            <option value="Jeju">Jeju</option>
-          </select>
+          <MyComponent>
+            {cityNameData.map((item, idx) => (
+              <button
+                key={idx}
+                onClick={(e) => {
+                  onClickCity(e, item);
+                }}
+              >
+                {item}
+              </button>
+            ))}
+          </MyComponent>
           {data &&
             data?.weather.map((item: any, idx: number) => {
               return (
@@ -116,8 +72,6 @@ export default function Weather() {
               </dl>
             </div>
           )}
-          {/* <button onClick={onClickOpenModal}>모달오픈</button>
-      {modalFlag && <ModalRegister onClose={onClickCloseModal} accountData={accountData} />} */}
         </WeatherBox>
       )}
     </>
