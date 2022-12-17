@@ -9,7 +9,7 @@ npm run dev
 
 ### 구현 내용
 
-NextJS + TypeScript + recoil 로 작업
+NextJS + TypeScript + redux-toolkit 로 작업
 openweathermap api 를 활용
 그날의 날씨에 따라 옷을 추천
 
@@ -24,6 +24,7 @@ openweathermap api 를 활용
 7.  typescript 4.8.4
 8.  styled-components 5.3.6
 9.  axios 0.21.4
+10. redux-toolkit 1.9.0
 
 ### 프로젝트 구조
 
