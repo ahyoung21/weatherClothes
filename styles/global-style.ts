@@ -17,7 +17,14 @@ export const GlobalStyle = createGlobalStyle`
         font-size: 10px;
         -ms-overflow-style: none;
         scrollbar-width: none;
+        background-size: cover;
+        transition: background-image 0.2s ease-in-out;
+        box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.4);
+        height:100%;
+        background-image: url('https://source.unsplash.com/v9bnfMCyKbg/1600x900');
+        animation: weather-motion 40s linear infinite;
     }
+
     button {
         padding: 0;
         border: 0;
@@ -67,5 +74,14 @@ export const GlobalStyle = createGlobalStyle`
     }
     input:-ms-input-placeholder {
         color: #000;
+    }
+
+    @keyframes weather-motion {
+        0% {
+            background-position: 0;
+        }
+        100% {
+            background-position: 100%;
+        }
     }
 `;

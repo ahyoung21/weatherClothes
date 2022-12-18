@@ -7,7 +7,7 @@ export const LoadingBox = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.4);
+  background-color: rgba(255, 255, 255, 0.2);
 
   div {
     display: flex;
@@ -21,7 +21,7 @@ export const LoadingBox = styled.div`
       width: 5rem;
       height: 5rem;
       color: #1a1a1a;
-      background-color: #fae100;
+      background-color: rgba(255, 255, 255, 0.4);
       border-radius: 50%;
 
       svg {

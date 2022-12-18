@@ -1,12 +1,12 @@
 import styled from 'styled-components';
 
 export const FooterBox = styled.footer`
-  display: block;
-  height: 5rem;
-  background-color: #fff;
-  border-top: 1px solid #eee;
-  border-bottom: 1px solid #eee;
-  box-sizing: border-box;
+  width: 100%;
+  height: 6rem;
+  background-color: #1b1a1e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   p {
     display: flex;
@@ -17,8 +17,7 @@ export const FooterBox = styled.footer`
     padding: 0;
     font-weight: 300;
     font-size: 1.4rem;
-    color: #1a1a1a;
-    background-color: #fff;
+    color: #fff;
     text-align: center;
   }
 `;

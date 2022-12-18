@@ -3,9 +3,28 @@ import styled from 'styled-components';
 export const WeatherBox = styled.div`
   position: relative;
   width: 100%;
-  min-height: calc(100vh - 10rem);
+  min-height: calc(100vh - 12rem);
   margin: 5.4rem auto 0;
   overflow: hidden;
+
+  button {
+    display: block;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1.8rem;
+    border-radius: 1.2rem;
+    background-color: #1b1a1e;
+    color: #82818d;
+    text-transform: uppercase;
+    font-size: 2rem;
+    white-space: pre;
+    transition: background-color 0.3s, color 0.3s;
+
+    &:hover {
+      color: #ffffff;
+      background-color: #1b5bff;
+    }
+  }
 
   ul {
     li {

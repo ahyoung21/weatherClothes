@@ -8,6 +8,7 @@ export interface CounterState {
   value: number;
   status: string;
   data: {
+    name: string;
     weather: [];
     main: {
       temp: number;
@@ -22,6 +23,7 @@ const initialState: CounterState = {
   value: 0,
   status: '',
   data: {
+    name: '',
     weather: [],
     main: {
       temp: 0,

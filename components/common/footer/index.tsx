@@ -3,7 +3,7 @@ import { FooterBox } from './style';
 export default function Footer() {
   return (
     <FooterBox>
-      <p>YAY. ALL RIGHT RESERVED.</p>
+      <p>© 2022 YAY. All rights reserved.</p>
     </FooterBox>
   );
 }
