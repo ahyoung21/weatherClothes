@@ -5,7 +5,10 @@ export const WeatherBox = styled.div`
   width: 100%;
   min-height: calc(100vh - 12rem);
   margin: 5.4rem auto 0;
+  padding: 0 2rem;
   overflow: hidden;
+  box-sizing: border-box;
+  background-color: #000;
 
   button {
     display: block;

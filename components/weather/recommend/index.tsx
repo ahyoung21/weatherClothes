@@ -1,13 +1,12 @@
-import React, { useState, ChangeEvent, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { getCounterState } from '../../../store/modules/counterSlice';
 
 import { RecommendBox } from './style';
-import TempData from './TempData.json';
 
 export default function Recommend() {
-  const dispatch = useDispatch();
   const { data } = useSelector(getCounterState);
+  const [mainWeather, setMainWeather] = useState('');
 
   const TempMap = [
     '겨울 야상 / 패딩 필수',
@@ -24,15 +23,39 @@ export default function Recommend() {
     return TempMap[score];
   };
 
+  useEffect(() => {
+    if (data) {
+      data.weather.map((item: any) => {
+        setMainWeather(item.main);
+      });
+    }
+  }, [data]);
+
   return (
-    <RecommendBox>
+    <RecommendBox
+      className={
+        mainWeather === 'Clouds'
+          ? 'weather-clouds'
+          : mainWeather === 'Rain'
+          ? 'weather-rain'
+          : mainWeather === 'thunderstorm'
+          ? 'weather-thunderstorm'
+          : ''
+      }
+    >
       <div>
         <strong>{data?.name}</strong>
         <span>{data.main.temp}&deg;</span>
         <span>추천 옷 : {tempToClothes(data.main.temp)}</span>
         {data &&
           data?.weather.map((item: any, idx: number) => {
-            return <p key={idx}>{item.description}</p>;
+            return (
+              <p key={idx}>
+                {item.main}
+                <br />
+                {item.description}
+              </p>
+            );
           })}
         <p>
           최고: {data.main.temp_max}&deg; 최저 : {data.main.temp_min}&deg;

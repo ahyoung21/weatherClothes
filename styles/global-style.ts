@@ -20,9 +20,7 @@ export const GlobalStyle = createGlobalStyle`
         background-size: cover;
         transition: background-image 0.2s ease-in-out;
         box-shadow: inset 0 0 0 1000px rgba(0,0,0,0.4);
-        height:100%;
-        background-image: url('https://source.unsplash.com/v9bnfMCyKbg/1600x900');
-        animation: weather-motion 40s linear infinite;
+        height: 100%;
     }
 
     button {
@@ -74,14 +72,5 @@ export const GlobalStyle = createGlobalStyle`
     }
     input:-ms-input-placeholder {
         color: #000;
-    }
-
-    @keyframes weather-motion {
-        0% {
-            background-position: 0;
-        }
-        100% {
-            background-position: 100%;
-        }
     }
 `;

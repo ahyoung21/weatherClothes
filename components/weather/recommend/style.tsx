@@ -6,6 +6,9 @@ export const RecommendBox = styled.div`
   align-items: center;
   text-align: center;
   min-height: calc(100vh - 12rem);
+  padding: 0 2rem;
+  background-image: url('https://source.unsplash.com/PEm_sLmJT-w/1600x900');
+  animation: weather-motion 40s linear infinite;
 
   div {
     strong {
@@ -33,19 +36,22 @@ export const RecommendBox = styled.div`
     }
   }
 
-  .weather-clear {
-    background-image: url('https://source.unsplash.com/PEm_sLmJT-w/1600x900');
+  &.weather-clouds {
+    background-image: url('https://source.unsplash.com/v9bnfMCyKbg/1600x900');
   }
-  .weather-clouds {
-    background-image: url('https://source.unsplash.com/78wDBw9ajUk/1600x900');
-  }
-  .weather-thunderstorm {
+  &.weather-thunderstorm {
     background-image: url('https://source.unsplash.com/jh2KTqHLMjE/1600x900');
   }
-  .weather-rain {
+  &.weather-rain {
     background-image: url('https://source.unsplash.com/22x7fxFpl_8/1600x900');
   }
-  .weather-snow {
-    background-image: url('https://source.unsplash.com/2V30zQZAIPs/1600x900');
+
+  @keyframes weather-motion {
+    0% {
+      background-position: 0;
+    }
+    100% {
+      background-position: 100%;
+    }
   }
 `;

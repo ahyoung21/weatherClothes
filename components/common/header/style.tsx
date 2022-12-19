@@ -33,7 +33,6 @@ export const HeaderBox = styled.header`
   & + main {
     min-height: calc(100vh - 12rem);
     margin-top: 6rem;
-    padding: 0 2rem;
 
     .react-loading-skeleton {
       margin-top: 2.2rem;
