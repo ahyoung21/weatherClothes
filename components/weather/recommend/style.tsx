@@ -19,6 +19,10 @@ export const RecommendBox = styled.div`
       font-weight: 300;
       font-size: 8rem;
       color: #fff;
+
+      & + span {
+        font-size: 2rem;
+      }
     }
 
     p {
