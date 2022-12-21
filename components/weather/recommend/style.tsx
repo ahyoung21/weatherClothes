@@ -14,6 +14,7 @@ export const RecommendBox = styled.div`
     strong {
       font-size: 3rem;
       color: #fff;
+      text-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
     }
 
     span {
@@ -22,6 +23,7 @@ export const RecommendBox = styled.div`
       font-weight: 300;
       font-size: 8rem;
       color: #fff;
+      text-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
 
       & + span {
         font-size: 2rem;
@@ -33,6 +35,7 @@ export const RecommendBox = styled.div`
       font-size: 2rem;
       color: #fff;
       line-height: 1.4;
+      text-shadow: 0.3rem 0.3rem 0.3rem rgba(0, 0, 0, 0.3);
     }
   }
 
@@ -44,6 +47,12 @@ export const RecommendBox = styled.div`
   }
   &.weather-rain {
     background-image: url('https://source.unsplash.com/22x7fxFpl_8/1600x900');
+  }
+  &.weather-mist {
+    background-image: url('/bg_mist.png');
+  }
+  &.weather-snow {
+    background-image: url('/bg_snow.jpg');
   }
 
   @keyframes weather-motion {

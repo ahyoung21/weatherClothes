@@ -23,6 +23,14 @@ export default function Recommend() {
     return TempMap[score];
   };
 
+  const [opacityCode, setOpacityCode] = useState(0);
+  const hour = 3;
+
+  const oneHour = Math.round((1 / 12) * 80) / 100; // 0.07
+  useEffect(() => {
+    setOpacityCode(Math.abs(Number(hour) - 12) * oneHour);
+  }, [opacityCode]);
+
   useEffect(() => {
     if (data) {
       data.weather.map((item: any) => {
@@ -36,10 +44,12 @@ export default function Recommend() {
       className={
         mainWeather === 'Clouds'
           ? 'weather-clouds'
-          : mainWeather === 'Rain'
+          : mainWeather === 'Rain' || mainWeather === 'Mist'
           ? 'weather-rain'
           : mainWeather === 'thunderstorm'
           ? 'weather-thunderstorm'
+          : mainWeather === 'Snow'
+          ? 'weather-snow'
           : ''
       }
     >
@@ -49,13 +59,7 @@ export default function Recommend() {
         <span>추천 옷 : {tempToClothes(data.main.temp)}</span>
         {data &&
           data?.weather.map((item: any, idx: number) => {
-            return (
-              <p key={idx}>
-                {item.main}
-                <br />
-                {item.description}
-              </p>
-            );
+            return <p key={idx}>{item.main}</p>;
           })}
         <p>
           최고: {data.main.temp_max}&deg; 최저 : {data.main.temp_min}&deg;
