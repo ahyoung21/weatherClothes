@@ -48,9 +48,6 @@ export const RecommendBox = styled.div`
   &.weather-rain {
     background-image: url('https://source.unsplash.com/22x7fxFpl_8/1600x900');
   }
-  &.weather-mist {
-    background-image: url('/bg_mist.png');
-  }
   &.weather-snow {
     background-image: url('/bg_snow.jpg');
   }
