@@ -1,8 +1,7 @@
-import React, { useState, ChangeEvent, useEffect, ReactNode, MouseEvent } from 'react';
+import React, { ReactNode, MouseEvent } from 'react';
 import Router from 'next/router';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { getUserState, setEmail, setName } from '../../../store/modules/userSlice';
 import { getCounterState, asyncWeatherFetch } from '../../../store/modules/counterSlice';
 import Loading from '../../loading';
 
@@ -19,9 +18,7 @@ const MyComponent = ({ children }: MyComponentProps) => {
 export default function Weather() {
   const cityNameData = ['seoul', 'Incheon', 'Jeonju', 'busan', 'Daegu', 'Jeju'];
   const dispatch = useDispatch();
-  const { value, status, data } = useSelector(getCounterState);
-
-  const intl = new Intl.NumberFormat('ko', { style: 'currency', currency: 'KRW' });
+  const { status } = useSelector(getCounterState);
 
   const onClickCity = (e: MouseEvent<HTMLButtonElement>, city: string) => {
     Router.push(`/${city}`);
